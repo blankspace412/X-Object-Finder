@@ -1,123 +1,374 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "poppins",sans-serif;
+}
 
-{% block content %}
-<!-- ========== MAIN CONTENT ========== -->
-<!-- ========== MAIN CONTENT ========== -->
-<!-- ========== MAIN CONTENT ========== -->
-<main id="content"
-  class=" border-2 border-green-500 shadow-[0_0_15px_rgba(59,130,246,0.7)] p-6 rounded-lg  relative max-w-2xl px-3 sm:px-6 lg:px-8 flex flex-col justify-center sm:items-center mx-auto size-full backdrop-blur-[6px] ">
-  <a class="flex items-center gap-2  pb-6 text-white text-xl font-semibold"
-    href="../templates/creative-agency/index.html" aria-label="Object Detection">
+<!-- .background{
+    background: url(backgroun3.jpg) no-repeat;
+    background-position: center;
+    background-size:cover ;
+    height: 100vh;
+    width: 100%;
+    filter: blur(10px);
+} -->
 
-    <!-- Object Detection Logo (Bounding Box with Object) -->
-    <svg class="w-14 h-14" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Bounding Box -->
-      <rect x="8" y="8" width="48" height="48" rx="8" stroke="white" stroke-width="4" />
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 13%;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
 
-      <!-- Detected Object (Circle) -->
-      <circle cx="32" cy="32" r="10" fill="white" />
+}
+.navbar a{
+    position: relative;
+    font-size: 16px;
+    color: #fff;
+    margin-right: 30px;
+    text-decoration: none;
+}
+.navbar a::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    bottom: -5px;
+    border-radius: 5px;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: .5s ease;
+}
+.navbar a:hover:after{
+    transform: translateY(0);
+    opacity: 1;
+}
+.search-bar{
+    width: 250px;
+    height: 45px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+}
+.search-bar input{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    padding-left: 10px;
+}
+.search-bar button{
+    width: 40px;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+.search-bar input::placeholder{
+    color: #fff;
+}
+.search-bar button i{
+    font-size: 22px;
+}
+.container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 75%;
+    height: 550px;
+    margin-top: 20px;
+    background: url(backgroun3.jpg) no-repeat;
+    background-position: center;
+    background-size:cover ;
+    border-radius: 20px;
+    overflow: hidden;
+    
+    
+}
+.item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 58%;
+    height: 100%;
+    color: #fff;
+    background: transparent;
+    padding: 80px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    
 
-      <!-- Small Detection Marks -->
-      <line x1="8" y1="20" x2="16" y2="20" stroke="white" stroke-width="2" />
-      <line x1="8" y1="44" x2="16" y2="44" stroke="white" stroke-width="2" />
-      <line x1="48" y1="20" x2="56" y2="20" stroke="white" stroke-width="2" />
-      <line x1="48" y1="44" x2="56" y2="44" stroke="white" stroke-width="2" />
-    </svg>
 
-    <!-- Text Next to Logo -->
-    <span class="text-white">X OBJECT FINDER</span>
+}
+.item .logo{
+    color: #fff;
+    font-size: 30px;
 
-  </a>
+}
+.text-item h2{
+    font-size: 40px;
+    line-height: 1;
+}
+.text-item p{
+    font-size: 16px;
+    margin: 20px 0;
+}
+.social-icon a i{
+    color: #fff;
+    font-size: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: .5s ease;
+}
+.social-icon a:hover i{
+    transform: scale(1.2);
+}
+.container .login-section{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 58%);
+    height: 100%;
+    color: #fff;
+    backdrop-filter: blur(10px);
+}
 
-  <h1 class="text-4xl pb-6 text-white sm:text-4xl">
-    SECURE LOGIN
-  </h1>
-  <h2 class="mt-1 sm:mt-3 text-4xl font-bold text-white sm:text-4xl">
-    <span class="bg-clip-text bg-linear-to-tr from-blue-600 to-purple-400 text-transparent">X OBJECT FINDER</span>
-  </h2>
+.login-section .form-box{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    
+}
+.login-section .form-box.register{
+    transform: translateX(430px);
+    transition: transform .6s ease;
+    transition-delay: 0s;
+}
+.login-section.active .form-box.register{
+    transform: translateX(0px);
+    transition-delay: .7s;
+}
 
-  <form>
-    <div class="mt-8 space-y-4">
-      <div>
-        <label for="hs-cover-with-gradient-form-name-1" class="sr-only">Full name</label>
-        <div class="relative">
-          <input type="text" id="hs-cover-with-gradient-form-name-1"
-            class="py-2.5 sm:py-3 ps-11 pe-4 block w-full bg-white/10 border-white/20 text-white placeholder:text-white rounded-lg sm:text-sm focus:border-white/30 focus:ring-white/30 sm:p-4 sm:ps-11"
-            placeholder="Full name">
-          <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-            <svg class="shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </div>
+.login-section .form-box.login{
+    transform: translateX(0px);
+    transition: transform .6s ease;
+    transition-delay: 0.7s;
+}
+.login-section.active .form-box.login{
+    transform: translateX(430px);
+    transition-delay: 0s;
+}
+
+
+
+.login-section .form-box h2{
+    text-align: center;
+    font-size: 25px;
+}
+
+.form-box .input-box{
+    width: 340px;
+    height: 50px;
+    border-bottom: 2px solid#fff;
+    margin: 30px 0;
+    position: relative;
+}
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding-right: 28px;
+
+
+}
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 16px;
+    font-weight: 600px;
+    pointer-events: none;
+    transition: .5s ease;
+
+}
+.input-box .icon{
+    position: absolute;
+    top: 13px;
+    right: 0;
+    font-size: 19px;
+}
+.input-box input:focus~ label,
+.input-box input:valid~ label{
+    top: -5px;
+}
+.remember-password{
+    font-size: 14px;
+    font-weight: 500;
+    margin: -15px 0 15px ;
+    display: flex;
+    justify-content: space-between;
+}
+.remember-password label input{
+    accent-color: #fff;
+    margin-right: 3px;
+
+}
+.remember-password a{
+    color: #fff;
+    text-decoration: none;
+}
+.remember-password a:hover{
+    text-decoration: underline;
+}
+.btn{
+    background: #fff;
+    width: 100%;
+    height: 45px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #f72d7a;
+    font-size: 16px;
+    color: #fff;
+    box-shadow: rgba(0,0,0,0.4);
+
+}
+.create-account{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 25px;
+}
+.create-account p a{
+    color: #fff;
+    font-weight: 600px;
+    text-decoration: none;
+}
+.create-account p a:hover{
+    text-decoration: underline;
+}
+
+</style>
+
+</head>
+<body style="background: url(https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0zMDktYWV3LTAxM18xXzEuanBn.jpg) no-repeat; background-size:cover ;">
+  <div class="container">
+    <div class="item">
+        <h2 class="logo"><i class="bx bxl-xing"></i>Hash Techie</h2>
+        <div class="text-item">
+            <h2>Welcome! <br /><span> To Our Channel </span></h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
+                repellendus?
+            </p>
+            <div class="social-icon">
+                <a href="#"><i class="bx bxl-facebook"></i></a>
+                <a href="#"><i class="bx bxl-twitter"></i></a>
+                <a href="#"><i class="bx bxl-youtube"></i></a>
+                <a href="#"><i class="bx bxl-instagram"></i></a>
+                <a href="#"><i class="bx bxl-linkedin"></i></a>
+            </div>
         </div>
-      </div>
-
-      <div>
-        <label for="hs-cover-with-gradient-form-email-1" class="sr-only">Email address</label>
-        <div class="relative">
-          <input type="email" id="hs-cover-with-gradient-form-email-1"
-            class="py-2.5 sm:py-3 ps-11 pe-4 block w-full bg-white/10 border-white/20 text-white placeholder:text-white rounded-lg sm:text-sm focus:border-white/30 focus:ring-white/30 sm:p-4 sm:ps-11"
-            placeholder="Email address">
-          <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-            <svg class="shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid">
-        <button type="submit"
-          class="sm:p-4 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-white/10 text-white hover:bg-white/20 focus:outline-hidden focus:bg-white/20 disabled:opacity-50 disabled:pointer-events-none">
-          Join the waitlist
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </button>
-      </div>
     </div>
-  </form>
-  </div>
-</main>
-<!-- ========== END MAIN CONTENT ========== -->
+    <div class="login-section">
+        <div class="form-box login">
+            <form action="/login" method="POST">
+                <h2>Sign In</h2>
+                <div class="input-box">
+                    <span class="icon"><i class="bx bxs-envelope"></i></span>
+                    <input type="text" required name="email"/>
+                    <label>Email or Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><i class="bx bxs-lock-alt"></i></span>
+                    <input type="password" required name="password" />
+                    <label>Password</label>
+                </div>
+                <div class="remember-password">
+                    <label for=""><input type="checkbox" />Remember Me</label>
+                    <a href="#">Forget Password</a>
+                </div>
+                <button class="btn">Login In</button>
+                <div class="create-account">
+                    <p>
+                        Create A New Account? <a href="#" class="register-link">Sign Up</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="form-box register">
+            <form method="POST" action="/register">
+                <h2>Sign Up</h2>
 
-<!-- ========== FOOTER ========== -->
-<footer class="absolute bottom-0 inset-x-0 text-center py-5">
-  <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-sm text-white/50">© 2025 Preline Labs. A product of <a
-        class="text-white font-medium hover:text-white/80 focus:outline-hidden focus:text-white/80"
-        href="../index.html">Htmlstream</a></p>
-  </div>
-</footer>
-<!-- ========== END FOOTER ========== -->
-<!-- ========== END MAIN CONTENT ========== -->
-
-<!-- ========== FOOTER ========== -->
-<footer class="absolute bottom-0 inset-x-0 text-center py-5">
-  <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-sm text-white/50">© 2025 Preline Labs. A product of <a
-        class="text-white font-medium hover:text-white/80 focus:outline-hidden focus:text-white/80"
-        href="../index.html">Htmlstream</a></p>
-  </div>
-</footer>
-<!-- ========== END FOOTER ========== -->
-<!-- ========== END MAIN CONTENT ========== -->
-
-<!-- ========== FOOTER ========== -->
-<footer class="absolute bottom-0 inset-x-0 text-center py-5">
-  <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-sm text-white/50">© 2025 Preline Labs. A product of <a
-        class="text-white font-medium hover:text-white/80 focus:outline-hidden focus:text-white/80"
-        href="../index.html">Htmlstream</a></p>
-  </div>
-</footer>
-<!-- ========== END FOOTER ========== -->
-
-{% endblock %}
+                <div class="input-box">
+                    <span class="icon"><i class="bx bxs-user"></i></span>
+                    <input type="text" required name="username" />
+                    <label>Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><i class="bx bxs-envelope"></i></span>
+                    <input type="email" required name="email"/>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><i class="bx bxs-lock-alt"></i></span>
+                    <input type="password" required  name="password" />
+                    <label>Password</label>
+                </div>
+                <div class="remember-password">
+                    <label for=""><input type="checkbox" />I agree with this statment</label>
+                </div>
+                <button class="btn">Login In</button>
+                <div class="create-account">
+                    <p>
+                        Already Have An Account? <a href="#" class="login-link">Sign In</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+const loginsec=document.querySelector('.login-section')
+const loginlink=document.querySelector('.login-link')
+const registerlink=document.querySelector('.register-link')
+registerlink.addEventListener('click',()=>{
+    loginsec.classList.add('active')
+})
+loginlink.addEventListener('click',()=>{
+    loginsec.classList.remove('active')
+})
+</script>
+</body>
+</html>
