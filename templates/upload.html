@@ -4,81 +4,456 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Upload</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .upload-container {
+            background: rgba(20, 20, 20, 0.85);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .upload-header h1 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            border: 3px dashed rgba(255, 255, 255, 0.2);
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(30, 30, 30, 0.5);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .file-input-wrapper:hover {
+            border-color: #667eea;
+            background: rgba(40, 40, 40, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .file-input-wrapper.dragover {
+            border-color: #667eea;
+            background: rgba(40, 40, 40, 0.8);
+            transform: scale(1.02);
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-input-text {
+            color: #a0a0a0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .file-input-text p {
+            font-size: 1rem;
+        }
+
+        .file-input-text .icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: #333333;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .file-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 10px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            color: #667eea;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .file-size {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .remove-file {
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+
+        .remove-file:hover {
+            transform: scale(1.1);
+            color: #ff6666;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-blue-900 text-white h-screen p-5">
-            <h2 class="text-2xl font-bold mb-4">
-                <p class="mb-2"><a href="{{ url_for('home') }}" class="hover:underline">Home</a></p>
-            </h2>
-            <ul>
-                <li class="mb-2"><a href="{{ url_for('index') }}" class="hover:underline">Upload Video</a></li>
-                <li class="mb-2"><a href="{{ url_for('result') }}" class="hover:underline">View Results</a></li>
-                <li class="mb-2"><a href="{{ url_for('uploaded_videos') }}" class="hover:underline">Uploaded Videos</a></li>
-            </ul>
+<body>
+    <div class="upload-container">
+        <div class="upload-header">
+            <h1>Upload Your Video</h1>
+            <p>Drag & drop your video file or click to browse</p>
         </div>
-        <!-- Main Content -->
-        <div class="w-3/4 p-10">
-            <h1 class="text-3xl font-bold mb-5">Upload Video for Object Detection and Tracking</h1>
-            <form id="uploadForm" method="post" enctype="multipart/form-data" class="bg-white p-5 rounded shadow-md">
-                {{ form.hidden_tag() }}
-                <div class="mb-4">
-                    <label class="block text-gray-700">{{ form.video_file.label }}</label>
-                    {{ form.video_file(class="mt-1 block w-full") }}
+        
+        <form id="uploadForm" class="upload-form" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                <label for="video_file">Select Video File</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="video_file" name="video_file" accept="video/*" required>
+                    <div class="file-input-text">
+                        <div class="icon">📁</div>
+                        <p>Click to select or drag and drop</p>
+                        <p>Supported formats: MP4, AVI, MOV</p>
+                    </div>
                 </div>
-                <div>
-                    {{ form.submit(class="bg-blue-500 text-white px-4 py-2 rounded") }}
+                <div class="progress-bar">
+                    <div class="progress-bar-fill"></div>
                 </div>
-            </form>
-            <div id="detectedObjects" class="mt-10 bg-white p-5 rounded shadow-md" style="display:none;">
-                <h2 class="text-2xl font-bold mb-5">Detected Objects</h2>
-                <div id="objectList" class="mb-5"></div>
-                <input type="text" id="targetObject" placeholder="Enter target object" class="border p-2 w-full mb-3">
-                <button id="trackButton" class="bg-blue-500 text-white px-4 py-2 rounded">Track Object</button>
             </div>
-        </div>
+
+            <div class="file-preview">
+                <div class="file-info">
+                    <div class="file-icon">🎥</div>
+                    <div class="file-details">
+                        <div class="file-name">No file selected</div>
+                        <div class="file-size">0 MB</div>
+                    </div>
+                    <div class="remove-file">×</div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Upload Video</button>
+        </form>
     </div>
-
-    <!-- save Detection times for each occurrence: in a txt file -->
-
-
     <script>
-        $('#uploadForm').on('submit', function(e) {
+        const fileInput = document.getElementById('video_file');
+        const fileInputWrapper = document.querySelector('.file-input-wrapper');
+        const fileInputText = document.querySelector('.file-input-text');
+        const filePreview = document.querySelector('.file-preview');
+        const fileName = document.querySelector('.file-name');
+        const fileSize = document.querySelector('.file-size');
+        const removeFile = document.querySelector('.remove-file');
+        const progressBar = document.querySelector('.progress-bar');
+        const progressBarFill = document.querySelector('.progress-bar-fill');
+
+        // File input handling
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                updateFilePreview(file);
+            }
+        });
+
+        // Drag and drop handling
+        fileInputWrapper.addEventListener('dragover', (e) => {
             e.preventDefault();
+            fileInputWrapper.classList.add('dragover');
+        });
+
+        fileInputWrapper.addEventListener('dragleave', () => {
+            fileInputWrapper.classList.remove('dragover');
+        });
+
+        fileInputWrapper.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInputWrapper.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                const file = e.dataTransfer.files[0];
+                fileInput.files = e.dataTransfer.files;
+                updateFilePreview(file);
+            }
+        });
+
+        // Remove file handling
+        removeFile.addEventListener('click', () => {
+            fileInput.value = '';
+            filePreview.classList.remove('active');
+            fileName.textContent = 'No file selected';
+            fileSize.textContent = '0 MB';
+        });
+
+        function updateFilePreview(file) {
+            const fileSizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+            fileName.textContent = file.name;
+            fileSize.textContent = `${fileSizeInMB} MB`;
+            filePreview.classList.add('active');
+        }
+
+        // Show loader while uploading video
+        $('#uploadForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+            showLoader('#uploadForm'); // Show loader on the upload form
             var formData = new FormData(this);
             $.ajax({
-                url: '/',
+                url: '/upload', // Backend endpoint for video upload
                 type: 'POST',
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
-                    $('#detectedObjects').show();
+                success: function (response) {
+                    hideLoader(); // Hide loader
+                    $('#detectedObjects').show(); // Show detected objects section
                     $('#objectList').empty(); // Clear previous results
-                    response.detected_objects.forEach(function(obj) {
-                        $('#objectList').append('<p>' + obj + '</p>');
+                    response.detected_objects.forEach(function (obj) {
+                        $('#objectList').append('<p>' + obj + '</p>'); // Append detected objects
                     });
                 },
-                error: function() {
+                error: function () {
+                    hideLoader(); // Hide loader
                     alert('An error occurred while uploading the video.');
                 }
             });
         });
 
-        $('#trackButton').on('click', function() {
+        // Show loader while tracking object
+        $('#trackButton').on('click', function () {
             var targetObject = $('#targetObject').val();
             if (!targetObject) {
                 alert('Please enter a target object to track.');
                 return;
             }
+            showLoader('#detectedObjects'); // Show loader on the detected objects section
             var videoPath = 'uploads/' + $('#uploadForm input[type="file"]').val().split('\\').pop(); // Get the video file name
-            $.post('/track', { target_object: targetObject, video_path: videoPath}, function(response) {
+            $.post('/track', { target_object: targetObject, video_path: videoPath }, function (response) {
+                hideLoader(); // Hide loader
                 alert(response.message);
-                
-            }).fail(function() {
+            }).fail(function () {
+                hideLoader(); // Hide loader
                 alert('An error occurred while tracking the object.');
             });
         });
