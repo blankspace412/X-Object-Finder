@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Upload</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -28,9 +31,11 @@
             0% {
                 background-position: 0% 50%;
             }
+
             50% {
                 background-position: 100% 50%;
             }
+
             100% {
                 background-position: 0% 50%;
             }
@@ -57,12 +62,10 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0.1) 0%,
-                rgba(255, 255, 255, 0) 50%,
-                rgba(255, 255, 255, 0.1) 100%
-            );
+            background: linear-gradient(to right,
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(255, 255, 255, 0.1) 100%);
             transform: rotate(45deg);
             animation: shine 3s infinite;
         }
@@ -71,14 +74,22 @@
             0% {
                 transform: translateX(-100%) rotate(45deg);
             }
+
             100% {
                 transform: translateX(100%) rotate(45deg);
             }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .upload-header {
@@ -175,9 +186,11 @@
             0% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.1);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -207,12 +220,10 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
             transition: 0.5s;
         }
 
@@ -264,9 +275,20 @@
             animation: slideIn 0.3s ease-out;
         }
 
+        .file-preview.active {
+            display: block;
+        }
+
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .file-info {
@@ -285,9 +307,11 @@
             0% {
                 transform: translateY(0px);
             }
+
             50% {
                 transform: translateY(-5px);
             }
+
             100% {
                 transform: translateY(0px);
             }
@@ -318,18 +342,133 @@
             transform: scale(1.1);
             color: #ff6666;
         }
+
+        /* Detected Objects Section Styling */
+        #detectedObjects {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        #detectedObjects h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        #objectList {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        #objectList p {
+            color: #d0d0d0;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        #objectList p:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        #targetObject {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(50, 50, 50, 0.5);
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        #targetObject:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        #targetObject::placeholder {
+            color: #a0a0a0;
+        }
+
+        #trackButton {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        #trackButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Loader Styling */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="upload-container">
         <div class="upload-header">
             <h1>Upload Your Video</h1>
             <p>Drag & drop your video file or click to browse</p>
         </div>
-        
+
         <form id="uploadForm" class="upload-form" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
-            
+
             <div class="form-group">
                 <label for="video_file">Select Video File</label>
                 <div class="file-input-wrapper">
@@ -358,7 +497,33 @@
 
             <button type="submit" class="submit-btn">Upload Video</button>
         </form>
+        
+        <!-- Detected Object Section -->
+        <div id="detectedObjects">
+            <h2>Detected Objects</h2>
+
+            <!-- Object List -->
+            <div id="objectList">
+                <!-- Dynamically populated list of objects will go here -->
+            </div>
+
+            <!-- Target Object Input -->
+            <div>
+                <input type="text" id="targetObject" placeholder="Enter target object">
+            </div>
+
+            <!-- Track Button -->
+            <button id="trackButton">
+                Track Object
+            </button>
+        </div>
+
+        <!-- Loader -->
+        <div id="loader">
+            <div class="loader"></div>
+        </div>
     </div>
+
     <script>
         const fileInput = document.getElementById('video_file');
         const fileInputWrapper = document.querySelector('.file-input-wrapper');
@@ -371,7 +536,7 @@
         const progressBarFill = document.querySelector('.progress-bar-fill');
 
         // File input handling
-        fileInput.addEventListener('change', function() {
+        fileInput.addEventListener('change', function () {
             if (this.files.length > 0) {
                 const file = this.files[0];
                 updateFilePreview(file);
@@ -391,7 +556,7 @@
         fileInputWrapper.addEventListener('drop', (e) => {
             e.preventDefault();
             fileInputWrapper.classList.remove('dragover');
-            
+
             if (e.dataTransfer.files.length) {
                 const file = e.dataTransfer.files[0];
                 fileInput.files = e.dataTransfer.files;
@@ -411,13 +576,24 @@
             const fileSizeInMB = (file.size / (1024 * 1024)).toFixed(2);
             fileName.textContent = file.name;
             fileSize.textContent = `${fileSizeInMB} MB`;
+            filePreview.style.display = 'block';
             filePreview.classList.add('active');
+        }
+
+        // Show and hide loader functions
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').style.display = 'none';
         }
 
         // Show loader while uploading video
         $('#uploadForm').on('submit', function (e) {
             e.preventDefault(); // Prevent default form submission
-            showLoader('#uploadForm'); // Show loader on the upload form
+            showLoader(); // Show loader
+            
             var formData = new FormData(this);
             $.ajax({
                 url: '/upload', // Backend endpoint for video upload
@@ -427,14 +603,27 @@
                 processData: false,
                 success: function (response) {
                     hideLoader(); // Hide loader
-                    $('#detectedObjects').show(); // Show detected objects section
-                    $('#objectList').empty(); // Clear previous results
-                    response.detected_objects.forEach(function (obj) {
-                        $('#objectList').append('<p>' + obj + '</p>'); // Append detected objects
-                    });
+                    
+                    // Show detected objects section
+                    $('#detectedObjects').show(); 
+                    
+                    // Clear previous results
+                    $('#objectList').empty(); 
+                    
+                    // Add each detected object to the list
+                    if (Array.isArray(response.detected_objects)) {
+                        response.detected_objects.forEach(function (obj) {
+                            $('#objectList').append('<p>' + obj + '</p>');
+                        });
+                    } else {
+                        // If response format is different, handle accordingly
+                        $('#objectList').append('<p>No objects detected or invalid response</p>');
+                        console.error('Invalid response format:', response);
+                    }
                 },
-                error: function () {
+                error: function (xhr, status, error) {
                     hideLoader(); // Hide loader
+                    console.error('Upload error:', error);
                     alert('An error occurred while uploading the video.');
                 }
             });
@@ -447,16 +636,33 @@
                 alert('Please enter a target object to track.');
                 return;
             }
-            showLoader('#detectedObjects'); // Show loader on the detected objects section
-            var videoPath = 'uploads/' + $('#uploadForm input[type="file"]').val().split('\\').pop(); // Get the video file name
-            $.post('/track', { target_object: targetObject, video_path: videoPath }, function (response) {
-                hideLoader(); // Hide loader
-                alert(response.message);
-            }).fail(function () {
-                hideLoader(); // Hide loader
-                alert('An error occurred while tracking the object.');
+            
+            showLoader(); // Show loader
+            
+            var filename = fileName.textContent;
+            
+            $.ajax({
+                url: '/track',
+                type: 'POST',
+                data: { 
+                    target_object: targetObject, 
+                    video_path: filename
+                },
+                success: function (response) {
+                    hideLoader(); // Hide loader
+                    alert('Object tracked successfully!');
+                    
+                    // Here you can handle the tracking results display
+                    // For example, redirect to a results page or show tracked frames
+                },
+                error: function (xhr, status, error) {
+                    hideLoader(); // Hide loader
+                    console.error('Tracking error:', error);
+                    alert('An error occurred while tracking the object.');
+                }
             });
         });
     </script>
 </body>
+
 </html>
