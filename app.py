@@ -23,10 +23,10 @@ class UploadForm(FlaskForm):
     video_file = FileField('Video File', validators=[DataRequired()])
     submit = SubmitField('Upload')
 
-# @app.route('/')
-# def index():
-#     form = UploadForm()
-#     return render_template('upload.html', form=form)
+ # @app.route('/')
+ # def index():
+ #     form = UploadForm()
+ #     return render_template('upload.html', form=form)
 
 @app.route('/')
 def home():
@@ -43,6 +43,12 @@ def contact():
 @app.route('/login')
 def login():
     return render_template('login.html')
+@app.route('/about')
+def about():
+    return render_template('about.html')
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 @app.route('/result')
 def result():
@@ -95,7 +101,7 @@ def upload():
         video_file = form.video_file.data
         video_path = os.path.join(app.config['UPLOAD_FOLDER'], video_file.filename)
         video_file.save(video_path)
-
+       
         # Run the detection
         model = YOLO("yolov8n.pt")
         detected_objects = detect_objects_in_video(video_path, model)
