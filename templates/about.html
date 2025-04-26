@@ -4,6 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - X Object Finder</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,700,500,600,300&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer="defer"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'body': '#030712',
+                        'darkBlue': {
+                            900: '#1E3A8A'
+                        }
+                    },
+                    blur: {
+                        '4xl': '100px'
+                    },
+                    height: {
+                        '128': '32rem',
+                        '160': '40rem',
+                        '170': '42.5rem',
+                    },
+                    width: {
+                        '128': '32rem',
+                        '148': '37rem',
+                        '160': '40rem',
+                        '186': '46.5rem'
+                    },
+                    animation: {
+                        'spinSlow': 'spin 3s linear infinite',
+                        'spinStar': 'spin 20s linear infinite',
+                    },
+                    boxShadow: {
+                        'box-violet': '0 0 60px -15px rgba(124, 58, 237, 0.3)',
+                        'box-orange': '0 0 60px -15px rgba(234, 88, 12, 0.3)',
+                        'box-green': '0 0 60px -15px rgba(34, 197, 94, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -261,60 +302,95 @@
         }
     </style>
 </head>
-<body>
-    <div class="grid-pattern"></div>
-    <div class="container">
-        <header class="header">
-            <h1>X Object Finder</h1>
-            <p>Advanced Video Surveillance and Object Detection System</p>
-        </header>
-
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🎥</div>
-                <h3>Real-time Object Detection</h3>
-                <p>Advanced AI-powered object detection system that identifies and tracks objects in real-time with high accuracy.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">🔍</div>
-                <h3>Smart Tracking</h3>
-                <p>Intelligent object tracking capabilities that follow objects across frames with precision and reliability.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>High Performance</h3>
-                <p>Optimized processing pipeline that delivers fast and efficient video analysis without compromising quality.</p>
-            </div>
+<body class="antialiased bg-black text-body font-body">
+    <div>
+        <!-- Navbar from index.html -->
+        <section class="relative pb-24 bg-body overflow-hidden">
+            <nav class="relative z-10 py-7">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center justify-between w-full">
+                        <!-- Logo -->
+                        <a class="inline-flex items-center text-white text-xl font-semibold shrink-0"
+                           href="/" aria-label="X OBJECT FINDER">
+                            <svg class="h-10 w-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="8" y="8" width="48" height="48" rx="8" stroke="white" stroke-width="4"/>
+                                <circle cx="32" cy="32" r="10" fill="white"/>
+                                <line x1="8" y1="20" x2="16" y2="20" stroke="white" stroke-width="2"/>
+                                <line x1="8" y1="44" x2="16" y2="44" stroke="white" stroke-width="2"/>
+                                <line x1="48" y1="20" x2="56" y2="20" stroke="white" stroke-width="2"/>
+                                <line x1="48" y1="44" x2="56" y2="44" stroke="white" stroke-width="2"/>
+                            </svg>
+                            <span class="ml-2 text-white whitespace-nowrap">X OBJECT FINDER</span>
+                        </a>
+                    
+                        <!-- Navigation -->
+                        <div class="flex items-center gap-6">
+                            <!-- Desktop Links -->
+                            <div class="hidden lg:flex items-center">
+                                <a class="inline-flex py-2 px-4 mr-4 items-center justify-center text-sm font-medium uppercase text-white hover:text-violet-500" href="login">SIGN IN</a>
+                                <a class="inline-flex h-11 py-2 px-4 items-center justify-center text-sm font-medium uppercase text-black hover:text-white bg-violet-500 hover:bg-violet-600 transition duration-200 rounded-full" href="login">SIGN UP</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </nav>
+            <img class="absolute top-0 right-0 opacity-80" src="static\template-assets\headers\circle-double-element-dark.svg" alt=""/>
         </section>
 
-        <section class="tech-stack">
-            <h2>Technology Stack</h2>
-            <div class="tech-grid">
-                <div class="tech-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python">
-                    <p>Python</p>
-                </div>
-                <div class="tech-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PyTorch_logo_black.svg/1200px-PyTorch_logo_black.svg.png" alt="PyTorch">
-                    <p>PyTorch</p>
-                </div>
-                <div class="tech-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/OpenCV_Logo_with_text_svg_version.svg/1200px-OpenCV_Logo_with_text_svg_version.svg.png" alt="OpenCV">
-                    <p>OpenCV</p>
-                </div>
-                <div class="tech-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png" alt="Flask">
-                    <p>Flask</p>
-                </div>
-            </div>
-        </section>
+        <div class="grid-pattern"></div>
+        <div class="container">
+            <header class="header">
+                <h1>X Object Finder</h1>
+                <p>Advanced Video Surveillance and Object Detection System</p>
+            </header>
 
-        <section class="contact-section">
-            <h2>Get Started Today</h2>
-            <a href="/upload" class="contact-button">Try X Object Finder</a>
-        </section>
+            <section class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <h3>Real-time Object Detection</h3>
+                    <p>Advanced AI-powered object detection system that identifies and tracks objects in real-time with high accuracy.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Tracking</h3>
+                    <p>Intelligent object tracking capabilities that follow objects across frames with precision and reliability.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>High Performance</h3>
+                    <p>Optimized processing pipeline that delivers fast and efficient video analysis without compromising quality.</p>
+                </div>
+            </section>
+
+            <section class="tech-stack">
+                <h2>Technology Stack</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python">
+                        <p>Python</p>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PyTorch_logo_black.svg/1200px-PyTorch_logo_black.svg.png" alt="PyTorch">
+                        <p>PyTorch</p>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/OpenCV_Logo_with_text_svg_version.svg/1200px-OpenCV_Logo_with_text_svg_version.svg.png" alt="OpenCV">
+                        <p>OpenCV</p>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png" alt="Flask">
+                        <p>Flask</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact-section">
+                <h2>Get Started Today</h2>
+                <a href="/upload" class="contact-button">Try X Object Finder</a>
+            </section>
+        </div>
     </div>
 </body>
 </html>

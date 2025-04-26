@@ -16,6 +16,74 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        /* Navbar styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .logo-link svg {
+            height: 2.5rem;
+            width: 2.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #667eea;
+        }
+
+        .nav-link.primary {
+            background: #667eea;
+            color: #000000;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+        }
+
+        .nav-link.primary:hover {
+            background: #764ba2;
+            color: #ffffff;
+        }
+
         body {
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
@@ -25,6 +93,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            padding-top: 100px; /* Added to account for fixed navbar */
         }
 
         @keyframes gradient {
@@ -460,6 +529,30 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a class="logo-link" href="/" aria-label="X OBJECT FINDER">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="8" width="48" height="48" rx="8" stroke="white" stroke-width="4"/>
+                    <circle cx="32" cy="32" r="10" fill="white"/>
+                    <line x1="8" y1="20" x2="16" y2="20" stroke="white" stroke-width="2"/>
+                    <line x1="8" y1="44" x2="16" y2="44" stroke="white" stroke-width="2"/>
+                    <line x1="48" y1="20" x2="56" y2="20" stroke="white" stroke-width="2"/>
+                    <line x1="48" y1="44" x2="56" y2="44" stroke="white" stroke-width="2"/>
+                </svg>
+                <span>X OBJECT FINDER</span>
+            </a>
+            
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a class="nav-link" href="login">SIGN IN</a>
+                <a class="nav-link primary" href="login">SIGN UP</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="upload-container">
         <div class="upload-header">
             <h1>Upload Your Video</h1>
