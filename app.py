@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, send_from_directory
+from flask import Flask, render_template, request, jsonify, redirect, send_from_directory, url_for
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from wtforms.validators import DataRequired
@@ -11,36 +11,33 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['SAVED_VIDEOS_FOLDER'] = 'saved_videos/'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///videos.db'  # Use SQLite for simplicity
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///videos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
 with app.app_context():
-    db.create_all()  # Create database tables
+    db.create_all()
 
 class UploadForm(FlaskForm):
     video_file = FileField('Video File', validators=[DataRequired()])
     submit = SubmitField('Upload')
 
- # @app.route('/')
- # def index():
- #     form = UploadForm()
- #     return render_template('upload.html', form=form)
-
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route('/result')
 def result():
@@ -49,16 +46,14 @@ def result():
     if get:
         list = [x for x in list if get in x]
     list = sorted(list)
-    print(list)
     return render_template('result.html', list=list)
 
-#logic to delete items in saved_videos folder
 @app.route('/delete/<item>')
 def delete_file(item):
     path = os.path.join(app.config['SAVED_VIDEOS_FOLDER'], item)
     if os.path.isfile(path):
         os.remove(path)
-    return redirect('/result')
+    return redirect(url_for('result'))
 
 @app.route('/download/<item>')
 def download_file(item):
@@ -67,7 +62,6 @@ def download_file(item):
         return send_from_directory(app.config['SAVED_VIDEOS_FOLDER'], item, as_attachment=True)
     else:
         return jsonify({'error': 'File not found'}), 404
-    
 
 @app.route('/uploaded_videos')
 def uploaded_videos():
@@ -79,7 +73,7 @@ def delete_video(id):
     video = Video.query.get(id)
     db.session.delete(video)
     db.session.commit()
-    return redirect('/uploaded_videos')
+    return redirect(url_for('uploaded_videos'))
 
 @app.route('/download_video/<int:id>')
 def download_video(id):
@@ -189,6 +183,7 @@ def save_combined_clips(video_path, model, output_dir, target_object):
             print(f"Stopped adding frames at {end_time:.2f} seconds.")
             jsonify({'detection_times': detection_times})
             
+
 
         if show_preview and cv2.waitKey(1) & 0xFF == ord('q'):
             break

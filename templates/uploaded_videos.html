@@ -57,10 +57,73 @@
             }
         }
 
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            z-index: 2;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .sidebar h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-link {
+            display: block;
+            color: #a0a0a0;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-link:hover {
+            color: #ffffff;
+            transform: translateX(10px);
+        }
+
+        .sidebar-link:hover::before {
+            width: 100%;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
             position: relative;
             z-index: 2;
         }
@@ -254,78 +317,87 @@
 </head>
 <body>
     <div class="grid-pattern"></div>
-    <div class="container">
-        <header class="header">
-            <h1>Uploaded Videos</h1>
-            <p>Browse and manage your uploaded surveillance videos</p>
-        </header>
+    <div class="sidebar">
+        <h2>X Object Finder</h2>
+        <a href="{{ url_for('home') }}" class="sidebar-link">Home</a>
+        <a href="{{ url_for('upload') }}" class="sidebar-link">Upload Video</a>
+        <a href="{{ url_for('result') }}" class="sidebar-link">View Results</a>
+        <a href="{{ url_for('uploaded_videos') }}" class="sidebar-link">Uploaded Videos</a>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <header class="header">
+                <h1>Uploaded Videos</h1>
+                <p>Browse and manage your uploaded surveillance videos</p>
+            </header>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Search videos...">
-        </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search videos...">
+            </div>
 
-        <div class="video-grid">
-            <!-- Video Card 1 -->
-            <div class="video-card">
-                <div class="video-thumbnail">
-                    <img src="static\template-assets\download\front entrance.avif" alt="Front Entrance Camera">
-                </div>
-                <div class="video-info">
-                    <h3 class="video-title">Front Entrance Camera - 2023-11-15</h3>
-                    <div class="video-meta">
-                        <span>Duration: 2:30</span>
-                        <span>Uploaded: 2 days ago</span>
+            <div class="video-grid">
+                <!-- Video Card 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="static\template-assets\download\front entrance.avif" alt="Front Entrance Camera">
                     </div>
-                    <div class="video-actions">
-                        <button class="action-btn">📤 Upload</button>
-                        <button class="action-btn">🗑️ Delete</button>
+                    <div class="video-info">
+                        <h3 class="video-title">Front Entrance Camera - 2023-11-15</h3>
+                        <div class="video-meta">
+                            <span>Duration: 2:30</span>
+                            <span>Uploaded: 2 days ago</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn">📤 Upload</button>
+                            <button class="action-btn">🗑️ Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="static\template-assets\download\backyard.jpg" alt="Backyard Camera">
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Backyard Camera - 2023-11-14</h3>
+                        <div class="video-meta">
+                            <span>Duration: 5:15</span>
+                            <span>Uploaded: 3 days ago</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn">📤 Upload</button>
+                            <button class="action-btn">🗑️ Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="static\template-assets\download\parking lot.jpg" alt="Parking Lot Camera">
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Parking Lot Camera - 2023-11-13</h3>
+                        <div class="video-meta">
+                            <span>Duration: 1:45</span>
+                            <span>Uploaded: 4 days ago</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn">📤 Upload</button>
+                            <button class="action-btn">🗑️ Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Video Card 2 -->
-            <div class="video-card">
-                <div class="video-thumbnail">
-                    <img src="static\template-assets\download\backyard.jpg" alt="Backyard Camera">
-                </div>
-                <div class="video-info">
-                    <h3 class="video-title">Backyard Camera - 2023-11-14</h3>
-                    <div class="video-meta">
-                        <span>Duration: 5:15</span>
-                        <span>Uploaded: 3 days ago</span>
-                    </div>
-                    <div class="video-actions">
-                        <button class="action-btn">📤 Upload</button>
-                        <button class="action-btn">🗑️ Delete</button>
-                    </div>
-                </div>
+            <div class="pagination">
+                <button class="page-btn">Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
             </div>
-
-            <!-- Video Card 3 -->
-            <div class="video-card">
-                <div class="video-thumbnail">
-                    <img src="static\template-assets\download\parking lot.jpg" alt="Parking Lot Camera">
-                </div>
-                <div class="video-info">
-                    <h3 class="video-title">Parking Lot Camera - 2023-11-13</h3>
-                    <div class="video-meta">
-                        <span>Duration: 1:45</span>
-                        <span>Uploaded: 4 days ago</span>
-                    </div>
-                    <div class="video-actions">
-                        <button class="action-btn">📤 Upload</button>
-                        <button class="action-btn">🗑️ Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="pagination">
-            <button class="page-btn">Previous</button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">Next</button>
         </div>
     </div>
 
