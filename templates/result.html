@@ -219,7 +219,7 @@
                 </thead>
                 <tbody>
                     {% for item in list %}
-                    <tr class="table-row" style="animation-delay: {{ loop.index * 0.1 }}s">
+                    <tr class="table-row" style="animation-delay: {{ loop.index * 0.1 }}s;">
                         <td>{{item}}</td>
                         <td>
                             <a href="{{ url_for('download_file', item=item) }}" download="{{item}}" class="download-btn">
