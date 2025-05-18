@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, jsonify, redirect, send_from_directory, url_for
+from flask import Flask, render_template, request, jsonify, redirect, send_from_directory, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import FileField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import FileField, SubmitField, StringField, PasswordField, BooleanField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import os
 import cv2
 from ultralytics import YOLO
-from models import db, Video
+from models import db, Video, User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -14,14 +16,42 @@ app.config['SAVED_VIDEOS_FOLDER'] = 'saved_videos/'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///videos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Initialize extensions
 db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
-with app.app_context():
-    db.create_all()
+# Create database tables
+def init_db():
+    with app.app_context():
+        # Create tables if they don't exist
+        db.create_all()
+        print("Database initialized successfully!")
+
+# Initialize the database
+init_db()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class UploadForm(FlaskForm):
     video_file = FileField('Video File', validators=[DataRequired()])
     submit = SubmitField('Upload')
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Log In')
+
+class RegistrationForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
 
 @app.route('/')
 def home():
@@ -35,9 +65,58 @@ def about():
 def contact():
     return render_template('contact.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    login_form = LoginForm()
+    register_form = RegistrationForm()
+    show_register = False  # Default: show login form
+
+    if request.method == 'POST':
+        if 'submit' in request.form:
+            if request.form['submit'] == 'Log In':
+                if login_form.validate_on_submit():
+                    user = User.query.filter_by(email=login_form.email.data).first()
+                    if user and user.check_password(login_form.password.data):
+                        login_user(user, remember=login_form.remember.data)
+                        next_page = request.args.get('next')
+                        return redirect(next_page or url_for('home'))
+                    flash('Invalid email or password', 'error')
+                else:
+                    for field, errors in login_form.errors.items():
+                        for error in errors:
+                            flash(f'{getattr(login_form, field).label.text}: {error}', 'error')
+            elif request.form['submit'] == 'Register':
+                show_register = True  # Show register form if register was submitted
+                if register_form.validate_on_submit():
+                    if User.query.filter_by(email=register_form.email.data).first():
+                        flash('Email already registered', 'error')
+                    else:
+                        user = User(
+                            name=register_form.name.data,
+                            email=register_form.email.data
+                        )
+                        user.set_password(register_form.password.data)
+                        db.session.add(user)
+                        db.session.commit()
+                        flash('Registration successful! Please login.', 'success')
+                        login_form = LoginForm()
+                        register_form = RegistrationForm()
+                        show_register = False  # After success, show login form
+                        return render_template('login.html', login_form=login_form, register_form=register_form, show_register=show_register)
+                else:
+                    for field, errors in register_form.errors.items():
+                        for error in errors:
+                            flash(f'{getattr(register_form, field).label.text}: {error}', 'error')
+    return render_template('login.html', login_form=login_form, register_form=register_form, show_register=show_register)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/result')
 def result():
