@@ -82,7 +82,7 @@ def login():
                     if user and user.check_password(login_form.password.data):
                         login_user(user, remember=login_form.remember.data)
                         next_page = request.args.get('next')
-                        return redirect(next_page or url_for('home'))
+                        return redirect(next_page or url_for('upload'))
                     flash('Invalid email or password', 'error')
                 else:
                     for field, errors in login_form.errors.items():
@@ -96,6 +96,7 @@ def login():
                     else:
                         user = User(
                             name=register_form.name.data,
+                            
                             email=register_form.email.data
                         )
                         user.set_password(register_form.password.data)
