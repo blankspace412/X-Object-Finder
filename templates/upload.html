@@ -790,25 +790,30 @@
             showLoader(); // Show loader
             
             var filename = fileName.textContent;
+            // Create complete video path
+            var video_path = 'uploads/' + filename;
             
             $.ajax({
                 url: '/track',
                 type: 'POST',
                 data: { 
                     target_object: targetObject, 
-                    video_path: filename
+                    video_path: video_path
                 },
                 success: function (response) {
                     hideLoader(); // Hide loader
-                    alert('Object tracked successfully!');
-                    
-                    // Here you can handle the tracking results display
-                    // For example, redirect to a results page or show tracked frames
+                    if(response.error) {
+                        alert('Error: ' + response.error);
+                        return;
+                    }
+                    alert('Object tracked successfully! Check the results page to view the video.');
+                    // Redirect to results page
+                    window.location.href = '/result';
                 },
                 error: function (xhr, status, error) {
                     hideLoader(); // Hide loader
                     console.error('Tracking error:', error);
-                    alert('An error occurred while tracking the object.');
+                    alert('An error occurred while tracking the object. Please try again.');
                 }
             });
         });

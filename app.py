@@ -264,7 +264,6 @@ def save_combined_clips(video_path, model, output_dir, target_object):
             jsonify({'detection_times': detection_times})
             
 
-
         if show_preview and cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -283,4 +282,4 @@ def save_combined_clips(video_path, model, output_dir, target_object):
     return combined_output_path ,jsonify({'detection_times': detection_times})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
